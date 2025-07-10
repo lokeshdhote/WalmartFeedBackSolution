@@ -65,7 +65,7 @@ const ChatWindow = ({ activeChat }) => {
   };
 
   return (
-   <div className="h-[100dvh] flex flex-col bg-blue-50 pb-3">
+   <div className="h-[99dvh] flex flex-col bg-blue-50 pb-3">
 
       <div className="flex-1 overflow-y-auto p-4 space-y-3">
         <div className=" text-center flex items-center justify-center font-bold text-gray-500">
