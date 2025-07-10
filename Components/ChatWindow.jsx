@@ -65,17 +65,16 @@ const ChatWindow = ({ activeChat }) => {
   };
 
   return (
-   <div className="h-[100vh] flex flex-col bg-blue-50 pb-3">
-
-      <div className="flex-1 overflow-y-auto p-4 space-y-3">
-        <div className=" text-center flex items-center justify-center font-bold text-gray-500">
+  <div className="h-[100dvh] flex flex-col bg-blue-50">
+ <div className="flex-1 overflow-y-auto p-4 space-y-3">
+        <div className=" mt-2 text-center flex items-center justify-center font-bold text-gray-500">
         <h3 className=' text-sm'   >  OID78566424846467</h3>
         </div>
 
         {messages.map((msg, index) => (
           <div
             key={index}
-            className={`p-2 mt-10    px-6 rounded-lg w-fit max-w-sm break-words ${
+            className={`p-2 mt-10    px-6 rounded-lg w-fit max-w-sm break-words flex-1 overflow-y-auto  space-y-3 ${
               msg.sender === 'user'
                 ? 'bg-blue-100 self-end'
                 : 'bg-white self-start'
