@@ -23,9 +23,16 @@ const ChatWindow = ({ activeChat }) => {
 
   const sendMessage = () => {
     if (!input && !image) return;
+
     const userMsg = image ? '[Image Uploaded]' : input;
-    setMessages([...messages, { text: userMsg, sender: 'user' }]);
+
+    setMessages((prev) => [
+      ...prev,
+      { text: input, image, sender: 'user' }
+    ]);
+
     socket.emit('chat message', { text: input, image });
+
     setInput('');
     setImage(null);
   };
@@ -56,60 +63,94 @@ const ChatWindow = ({ activeChat }) => {
   };
 
   return (
-    <div className=" h-screen flex flex-col  bg-blue-50 pb-3">
+    <div className="h-screen flex flex-col bg-blue-50 pb-3">
       <div className="flex-1 overflow-y-auto p-4 space-y-3">
-        <div className="text-center font-bold text-sm text-gray-500">OID78566424846467</div>
+        <div className=" text-center flex items-center justify-center font-bold text-gray-500">
+        <h3 className=' text-sm'   >  OID78566424846467</h3>
+        </div>
+
         {messages.map((msg, index) => (
           <div
             key={index}
-            className={`p-2 rounded-lg w-fit ${msg.sender === 'user' ? 'bg-blue-100 self-end' : 'bg-white'}`}
+            className={`p-2 mt-8 rounded-lg w-fit max-w-sm break-words ${
+              msg.sender === 'user'
+                ? 'bg-blue-100 self-end'
+                : 'bg-white self-start'
+            }`}
           >
-            
-            {msg.text}
-            <div className="flex space-x-2 text-sm mt-1">
-              <button>👍</button>
-              <button>👎</button>
-              <button>📋</button>
+            {msg.image && (
+              <img
+                src={msg.image}
+                alt="Uploaded"
+                className="mb-2 max-w-full rounded shadow"
+              />
+            )}
+            {msg.text && <div>{msg.text}</div>}
+
+            <div className="flex space-x-2 text-sm mt-1 text-gray-500">
+              <button className="hover:text-blue-500">👍</button>
+              <button className="hover:text-red-500">👎</button>
+              <button
+                onClick={() => navigator.clipboard.writeText(msg.text || '')}
+                className="hover:text-green-500"
+                aria-label="Copy message"
+              >
+                📋
+              </button>
             </div>
           </div>
         ))}
         <div ref={messageEndRef} />
       </div>
-      <div className="py-4  px-6  border-t bg-white flex gap-2 items-center">
-       <div className='w-full border rounded px-4 flex gap-6 items-center  py-1'  >
-        <div className='pr-4 border-r  '  >
- <button className=" text-black text-xl font-extralight cursor-pointer  ">
-            <i class="ri-attachment-2"></i>
-          </button> 
-        </div>
-        
-        <input
-          className="flex-1 p-2 outline-none"
-          placeholder="Mention Your Issue"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-        />
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleImageUpload}
-          className="hidden"
-          id="upload"
-        />
-       
-      <div className='flex gap-6 px-2'  >
-          <button className=" text-black text-xl font-extralight cursor-pointer" onClick={handleVoiceInput}>
-             <i class="ri-mic-line"></i></button>
-        <button className="  text-black text-xl font-extralight cursor-pointer" onClick={sendMessage}> 
-            <i class="ri-send-plane-2-line"></i></button>
-      </div>
-       </div>
-       
-      </div>
-    </div>
-  
-  );
 
+      {/* Input area */}
+      <div className="py-3 px-2 border-t bg-white flex items-center">
+  <div className="flex items-center border rounded w-full px-2 py-1 gap-2 overflow-hidden">
+    
+    {/* Attachment Icon */}
+    <label htmlFor="upload" className="text-black text-xl cursor-pointer pr-2 border-r">
+      <i className="ri-attachment-2"></i>
+    </label>
+
+    {/* Input Field (prevent overflow using min-w-0) */}
+    <input
+      className="flex-1 min-w-0 p-2 outline-none"
+      placeholder="Mention Your Issue"
+      value={input}
+      onChange={(e) => setInput(e.target.value)}
+    />
+
+    <input
+      type="file"
+      accept="image/*"
+      onChange={handleImageUpload}
+      className="hidden"
+      id="upload"
+    />
+
+    {/* Voice + Send */}
+    <div className="flex gap-2 shrink-0">
+      <button
+        className="text-black text-xl"
+        onClick={handleVoiceInput}
+        aria-label="Voice input"
+      >
+        <i className="ri-mic-line"></i>
+      </button>
+      <button
+        className="text-black text-xl disabled:opacity-30"
+        onClick={sendMessage}
+        disabled={!input && !image}
+        aria-label="Send message"
+      >
+        <i className="ri-send-plane-2-line"></i>
+      </button>
+    </div>
+  </div>
+</div>
+
+    </div>
+  );
 };
 
 export default ChatWindow;

@@ -23,7 +23,7 @@ export default function App() {
       {/* Sidebar overlays chat on small screens */}
       {sidebarOpen && (
         <div className="  fixed inset-0 z-40 flex lg:hidden ">
-          <div className="relative h-screen  bg-black  z-50">
+          <div className="relative h-full bg-black z-50">
             <button
               onClick={() => setSidebarOpen(false)}
               className="absolute top-2 right-2 text-gray-700 hover:text-black"
