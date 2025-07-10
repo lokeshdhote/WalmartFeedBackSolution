@@ -4,6 +4,8 @@ import { io } from 'socket.io-client';
 const socket = io('http://localhost:4000');
 
 const ChatWindow = ({ activeChat }) => {
+    const [feedback, setFeedback] = useState({});
+
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [image, setImage] = useState(null);
@@ -72,7 +74,7 @@ const ChatWindow = ({ activeChat }) => {
         {messages.map((msg, index) => (
           <div
             key={index}
-            className={`p-2 mt-8 rounded-lg w-fit max-w-sm break-words ${
+            className={`p-2 mt-10    px-6 rounded-lg w-fit max-w-sm break-words ${
               msg.sender === 'user'
                 ? 'bg-blue-100 self-end'
                 : 'bg-white self-start'
@@ -87,17 +89,33 @@ const ChatWindow = ({ activeChat }) => {
             )}
             {msg.text && <div>{msg.text}</div>}
 
-            <div className="flex space-x-2 text-sm mt-1 text-gray-500">
-              <button className="hover:text-blue-500">👍</button>
-              <button className="hover:text-red-500">👎</button>
-              <button
-                onClick={() => navigator.clipboard.writeText(msg.text || '')}
-                className="hover:text-green-500"
-                aria-label="Copy message"
-              >
-                📋
-              </button>
-            </div>
+           <div className="flex space-x-4 text-sm mt-4 text-gray-500">
+  <button
+    className={`text-lg cursor-pointer ${feedback[index] === 'like' ? 'text-black' : ''}`}
+    onClick={() => setFeedback({ ...feedback, [index]: 'like' })}
+    aria-label="Like"
+  >
+    <i className="ri-thumb-up-line"></i>
+  </button>
+
+  <button
+    className={`text-lg cursor-pointer ${feedback[index] === 'dislike' ? 'text-black' : ''}`}
+    onClick={() => setFeedback({ ...feedback, [index]: 'dislike' })}
+    aria-label="Dislike"
+  >
+    <i className="ri-thumb-down-line"></i>
+  </button>
+
+  <button
+    onClick={() => navigator.clipboard.writeText(msg.text || '')}
+    className="text-lg cursor-pointer"
+    aria-label="Copy message"
+  >
+    <i className="ri-clipboard-line"></i>
+  </button>
+</div>
+
+
           </div>
         ))}
         <div ref={messageEndRef} />
@@ -108,7 +126,7 @@ const ChatWindow = ({ activeChat }) => {
   <div className="flex items-center border rounded w-full px-2 py-1 gap-2 overflow-hidden">
     
     {/* Attachment Icon */}
-    <label htmlFor="upload" className="text-black text-xl cursor-pointer pr-2 border-r">
+    <label htmlFor="upload" className="text-black text-xl cursor-pointer pr-2 px-2 border-r">
       <i className="ri-attachment-2"></i>
     </label>
 
@@ -129,7 +147,7 @@ const ChatWindow = ({ activeChat }) => {
     />
 
     {/* Voice + Send */}
-    <div className="flex gap-2 shrink-0">
+    <div className="flex gap-2 px-2 shrink-0">
       <button
         className="text-black text-xl"
         onClick={handleVoiceInput}
