@@ -93,7 +93,11 @@ const ChatWindow = ({ activeChat }) => {
         <button className="p-2 bg-blue-600 text-white rounded" onClick={sendMessage}>➤</button>
       </div>
     </div>
+    // <i class="ri-mic-line"></i>
+    // <i class="ri-attachment-2"></i>
+    // <i class="ri-send-plane-2-line"></i>
   );
+
 };
 
 export default ChatWindow;

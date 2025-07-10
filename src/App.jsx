@@ -9,9 +9,9 @@ export default function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="relative flex h-screen w-full overflow-hidden ">
+    <div className=" relative flex h-screen w-full overflow-hidden  ">
       {/* Sidebar toggle button on small screens */}
-      <div className="lg:hidden absolute top-2 left-2 z-50 ">
+      <div className="lg:hidden absolute top-2 left-4 z-50 ">
         <button
           onClick={() => setSidebarOpen(true)}
           className="p-2 bg-white rounded-full shadow"
