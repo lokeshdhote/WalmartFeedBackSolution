@@ -33,7 +33,7 @@ export default function Sidebar({
 
       <div className="mt-6">
         <button
-          className="w-full text-left font-semibold flex justify-between items-center"
+          className="w-full text-left font-semibold flex justify-between items-center  cursor-pointer "
           onClick={() => setShowHistory(!showHistory)}
         >
           Chat History {showHistory ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
